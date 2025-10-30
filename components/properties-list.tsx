@@ -14,6 +14,7 @@ import {
 import { Building2, MapPin, DoorOpen, Plus } from "lucide-react"
 import { PropertyForm } from "@/components/forms/property-form"
 import { useState } from "react"
+import Link from "next/link"
 
 const properties = [
   {
@@ -119,9 +120,11 @@ export function PropertiesList() {
               </div>
 
               <div className="flex gap-2 mt-4">
-                <Button variant="outline" className="flex-1 bg-transparent">
-                  View Details
-                </Button>
+                <Link href={`/properties/${property.id}`} className="flex-1">
+                  <Button variant="outline" className="w-full bg-transparent">
+                    View Details
+                  </Button>
+                </Link>
                 <Button className="flex-1">Manage</Button>
               </div>
             </div>
