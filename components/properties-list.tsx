@@ -23,7 +23,7 @@ const properties = [
     totalRooms: 12,
     occupiedRooms: 10,
     monthlyRevenue: 14400,
-    image: "/modern-apartment-building.png",
+    image: "/property/sunset.png",
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ const properties = [
     totalRooms: 8,
     occupiedRooms: 7,
     monthlyRevenue: 10500,
-    image: "/riverside-apartments.png",
+    image: "/property/russey-kao.png",
   },
   {
     id: 3,
@@ -41,16 +41,16 @@ const properties = [
     totalRooms: 16,
     occupiedRooms: 14,
     monthlyRevenue: 19200,
-    image: "/green-valley-residential-building.jpg",
+    image: "/property/green-valley.png",
   },
   {
     id: 4,
-    name: "Downtown Studios",
+    name: "Toul House",
     address: "321 Center Avenue, City Center",
     totalRooms: 6,
     occupiedRooms: 6,
     monthlyRevenue: 7200,
-    image: "/downtown-studio-apartments.jpg",
+    image: "/property/toul-house.png",
   },
 ]
 
@@ -72,11 +72,11 @@ export function PropertiesList() {
               <DialogTitle>Add New Property</DialogTitle>
               <DialogDescription>Fill in the details below to add a new property to your portfolio.</DialogDescription>
             </DialogHeader>
-            <PropertyForm onSuccess={() => setIsDialogOpen(false)} />
+            <PropertyForm onSuccess={() => setIsDialogOpen(false)} onCancel={() => setIsDialogOpen(false)}/>
           </DialogContent>
         </Dialog>
       </div>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 grid-cols-1 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2">
         {properties.map((property) => (
           <Card key={property.id} className="overflow-hidden">
             <img src={property.image || "/placeholder.svg"} alt={property.name} className="w-full h-48 object-cover" />
