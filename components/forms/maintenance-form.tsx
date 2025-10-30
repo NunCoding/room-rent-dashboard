@@ -23,11 +23,12 @@ interface MaintenanceFormProps {
     category: string
     reportedDate: string
   }
-  onSubmit: (data: any) => void
-  onCancel: () => void
+  onSubmit?: (data: any) => void
+  onCancel?: () => void
+  onSuccess?: () => void
 }
 
-export function MaintenanceForm({ request, onSubmit, onCancel }: MaintenanceFormProps) {
+export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: MaintenanceFormProps) {
   const [formData, setFormData] = useState({
     propertyId: request?.propertyId || "",
     roomId: request?.roomId || "",
@@ -42,7 +43,12 @@ export function MaintenanceForm({ request, onSubmit, onCancel }: MaintenanceForm
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+    if (onSubmit) {
+      onSubmit(formData)
+    }
+    if (onSuccess) {
+      onSuccess()
+    }
   }
 
   return (

@@ -19,11 +19,12 @@ interface PropertyFormProps {
     description: string
     totalRooms: number
   }
-  onSubmit: (data: any) => void
-  onCancel: () => void
+  onSubmit?: (data: any) => void
+  onCancel?: () => void
+  onSuccess?: () => void
 }
 
-export function PropertyForm({ property, onSubmit, onCancel }: PropertyFormProps) {
+export function PropertyForm({ property, onSubmit, onCancel, onSuccess }: PropertyFormProps) {
   const [formData, setFormData] = useState({
     name: property?.name || "",
     address: property?.address || "",
@@ -34,7 +35,12 @@ export function PropertyForm({ property, onSubmit, onCancel }: PropertyFormProps
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+    if (onSubmit) {
+      onSubmit(formData)
+    }
+    if (onSuccess) {
+      onSuccess()
+    }
   }
 
   return (

@@ -20,11 +20,12 @@ interface TenantFormProps {
     emergencyPhone: string
     notes: string
   }
-  onSubmit: (data: any) => void
-  onCancel: () => void
+  onSubmit?: (data: any) => void
+  onCancel?: () => void
+  onSuccess?: () => void
 }
 
-export function TenantForm({ tenant, onSubmit, onCancel }: TenantFormProps) {
+export function TenantForm({ tenant, onSubmit, onCancel, onSuccess }: TenantFormProps) {
   const [formData, setFormData] = useState({
     name: tenant?.name || "",
     email: tenant?.email || "",
@@ -37,7 +38,12 @@ export function TenantForm({ tenant, onSubmit, onCancel }: TenantFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+    if (onSubmit) {
+      onSubmit(formData)
+    }
+    if (onSuccess) {
+      onSuccess()
+    }
   }
 
   return (

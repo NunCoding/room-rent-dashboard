@@ -20,11 +20,12 @@ interface PaymentFormProps {
     status: string
     notes: string
   }
-  onSubmit: (data: any) => void
-  onCancel: () => void
+  onSubmit?: (data: any) => void
+  onCancel?: () => void
+  onSuccess?: () => void
 }
 
-export function PaymentForm({ payment, onSubmit, onCancel }: PaymentFormProps) {
+export function PaymentForm({ payment, onSubmit, onCancel, onSuccess }: PaymentFormProps) {
   const [formData, setFormData] = useState({
     leaseId: payment?.leaseId || "",
     amount: payment?.amount || 0,
@@ -36,7 +37,12 @@ export function PaymentForm({ payment, onSubmit, onCancel }: PaymentFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+    if (onSubmit) {
+      onSubmit(formData)
+    }
+    if (onSuccess) {
+      onSuccess()
+    }
   }
 
   return (

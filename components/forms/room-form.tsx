@@ -21,11 +21,12 @@ interface RoomFormProps {
     status: string
     description: string
   }
-  onSubmit: (data: any) => void
-  onCancel: () => void
+  onSubmit?: (data: any) => void
+  onCancel?: () => void
+  onSuccess?: () => void
 }
 
-export function RoomForm({ room, onSubmit, onCancel }: RoomFormProps) {
+export function RoomForm({ room, onSubmit, onCancel, onSuccess }: RoomFormProps) {
   const [formData, setFormData] = useState({
     roomNumber: room?.roomNumber || "",
     propertyId: room?.propertyId || "",
@@ -38,7 +39,12 @@ export function RoomForm({ room, onSubmit, onCancel }: RoomFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+    if (onSubmit) {
+      onSubmit(formData)
+    }
+    if (onSuccess) {
+      onSuccess()
+    }
   }
 
   return (

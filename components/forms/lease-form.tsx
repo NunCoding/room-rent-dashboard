@@ -23,11 +23,12 @@ interface LeaseFormProps {
     status: string
     terms: string
   }
-  onSubmit: (data: any) => void
-  onCancel: () => void
+  onSubmit?: (data: any) => void
+  onCancel?: () => void
+  onSuccess?: () => void
 }
 
-export function LeaseForm({ lease, onSubmit, onCancel }: LeaseFormProps) {
+export function LeaseForm({ lease, onSubmit, onCancel, onSuccess }: LeaseFormProps) {
   const [formData, setFormData] = useState({
     tenantId: lease?.tenantId || "",
     roomId: lease?.roomId || "",
@@ -42,7 +43,12 @@ export function LeaseForm({ lease, onSubmit, onCancel }: LeaseFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+    if (onSubmit) {
+      onSubmit(formData)
+    }
+    if (onSuccess) {
+      onSuccess()
+    }
   }
 
   return (
