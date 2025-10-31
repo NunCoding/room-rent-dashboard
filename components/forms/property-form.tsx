@@ -78,7 +78,7 @@ export function PropertyForm({ property, onSubmit, onCancel, onSuccess }: Proper
           <div className="space-y-2">
             <Label htmlFor="type">Property Type</Label>
             <Select value={formData.type} onValueChange={(value) => setFormData({ ...formData, type: value })}>
-              <SelectTrigger id="type">
+              <SelectTrigger id="type" className="w-full">
                 <SelectValue placeholder="Select property type" />
               </SelectTrigger>
               <SelectContent>

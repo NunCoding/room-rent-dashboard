@@ -1,34 +1,51 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface MaintenanceFormProps {
   request?: {
-    id: string
-    propertyId: string
-    roomId: string
-    tenantId: string
-    title: string
-    description: string
-    priority: string
-    status: string
-    category: string
-    reportedDate: string
-  }
-  onSubmit?: (data: any) => void
-  onCancel?: () => void
-  onSuccess?: () => void
+    id: string;
+    propertyId: string;
+    roomId: string;
+    tenantId: string;
+    title: string;
+    description: string;
+    priority: string;
+    status: string;
+    category: string;
+    reportedDate: string;
+  };
+  onSubmit?: (data: any) => void;
+  onCancel?: () => void;
+  onSuccess?: () => void;
 }
 
-export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: MaintenanceFormProps) {
+export function MaintenanceForm({
+  request,
+  onSubmit,
+  onCancel,
+  onSuccess,
+}: MaintenanceFormProps) {
   const [formData, setFormData] = useState({
     propertyId: request?.propertyId || "",
     roomId: request?.roomId || "",
@@ -38,25 +55,30 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
     priority: request?.priority || "medium",
     status: request?.status || "pending",
     category: request?.category || "",
-    reportedDate: request?.reportedDate || new Date().toISOString().split("T")[0],
-  })
+    reportedDate:
+      request?.reportedDate || new Date().toISOString().split("T")[0],
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (onSubmit) {
-      onSubmit(formData)
+      onSubmit(formData);
     }
     if (onSuccess) {
-      onSuccess()
+      onSuccess();
     }
-  }
+  };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{request ? "Edit Maintenance Request" : "Create Maintenance Request"}</CardTitle>
+        <CardTitle>
+          {request ? "Edit Maintenance Request" : "Create Maintenance Request"}
+        </CardTitle>
         <CardDescription>
-          {request ? "Update maintenance request details" : "Enter details for the new maintenance request"}
+          {request
+            ? "Update maintenance request details"
+            : "Enter details for the new maintenance request"}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -67,7 +89,9 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
               id="title"
               placeholder="e.g., Leaking faucet in bathroom"
               value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
               required
             />
           </div>
@@ -77,9 +101,11 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
               <Label htmlFor="propertyId">Property</Label>
               <Select
                 value={formData.propertyId}
-                onValueChange={(value) => setFormData({ ...formData, propertyId: value })}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, propertyId: value })
+                }
               >
-                <SelectTrigger id="propertyId">
+                <SelectTrigger id="propertyId" className="w-full">
                   <SelectValue placeholder="Select property" />
                 </SelectTrigger>
                 <SelectContent>
@@ -92,8 +118,13 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
 
             <div className="space-y-2">
               <Label htmlFor="roomId">Room</Label>
-              <Select value={formData.roomId} onValueChange={(value) => setFormData({ ...formData, roomId: value })}>
-                <SelectTrigger id="roomId">
+              <Select
+                value={formData.roomId}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, roomId: value })
+                }
+              >
+                <SelectTrigger id="roomId" className="w-full">
                   <SelectValue placeholder="Select room" />
                 </SelectTrigger>
                 <SelectContent>
@@ -108,8 +139,13 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
 
           <div className="space-y-2">
             <Label htmlFor="tenantId">Reported By (Tenant)</Label>
-            <Select value={formData.tenantId} onValueChange={(value) => setFormData({ ...formData, tenantId: value })}>
-              <SelectTrigger id="tenantId">
+            <Select
+              value={formData.tenantId}
+              onValueChange={(value) =>
+                setFormData({ ...formData, tenantId: value })
+              }
+            >
+              <SelectTrigger id="tenantId" className="w-full">
                 <SelectValue placeholder="Select tenant" />
               </SelectTrigger>
               <SelectContent>
@@ -121,14 +157,16 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
             </Select>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
+            <div className="space-y-2 w-full">
               <Label htmlFor="category">Category</Label>
               <Select
                 value={formData.category}
-                onValueChange={(value) => setFormData({ ...formData, category: value })}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, category: value })
+                }
               >
-                <SelectTrigger id="category">
+                <SelectTrigger id="category" className="w-full">
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -148,9 +186,11 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
               <Label htmlFor="priority">Priority</Label>
               <Select
                 value={formData.priority}
-                onValueChange={(value) => setFormData({ ...formData, priority: value })}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, priority: value })
+                }
               >
-                <SelectTrigger id="priority">
+                <SelectTrigger id="priority" className="w-full">
                   <SelectValue placeholder="Select priority" />
                 </SelectTrigger>
                 <SelectContent>
@@ -166,8 +206,13 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
-              <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
-                <SelectTrigger id="status">
+              <Select
+                value={formData.status}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, status: value })
+                }
+              >
+                <SelectTrigger id="status" className="w-full">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -185,7 +230,9 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
                 id="reportedDate"
                 type="date"
                 value={formData.reportedDate}
-                onChange={(e) => setFormData({ ...formData, reportedDate: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, reportedDate: e.target.value })
+                }
                 required
               />
             </div>
@@ -197,7 +244,9 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
               id="description"
               placeholder="Provide detailed description of the maintenance issue..."
               value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               rows={5}
               required
             />
@@ -207,10 +256,12 @@ export function MaintenanceForm({ request, onSubmit, onCancel, onSuccess }: Main
             <Button type="button" variant="outline" onClick={onCancel}>
               Cancel
             </Button>
-            <Button type="submit">{request ? "Update Request" : "Create Request"}</Button>
+            <Button type="submit">
+              {request ? "Update Request" : "Create Request"}
+            </Button>
           </div>
         </form>
       </CardContent>
     </Card>
-  )
+  );
 }

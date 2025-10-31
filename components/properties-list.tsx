@@ -125,7 +125,9 @@ export function PropertiesList() {
                     View Details
                   </Button>
                 </Link>
-                <Button className="flex-1">Manage</Button>
+                <Link href={`/properties/${property.id}/manage`} className="flex-1">
+                  <Button className="w-full">Manage</Button>
+                </Link>
               </div>
             </div>
           </Card>

@@ -24,9 +24,10 @@ interface RoomFormProps {
   onSubmit?: (data: any) => void
   onCancel?: () => void
   onSuccess?: () => void
+  showCard?: boolean
 }
 
-export function RoomForm({ room, onSubmit, onCancel, onSuccess }: RoomFormProps) {
+export function RoomForm({ room, onSubmit, onCancel, onSuccess, showCard = true }: RoomFormProps) {
   const [formData, setFormData] = useState({
     roomNumber: room?.roomNumber || "",
     propertyId: room?.propertyId || "",
@@ -47,6 +48,121 @@ export function RoomForm({ room, onSubmit, onCancel, onSuccess }: RoomFormProps)
     }
   }
 
+  const formContent = (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="roomNumber">Room Number</Label>
+          <Input
+            id="roomNumber"
+            placeholder="e.g., 101"
+            value={formData.roomNumber}
+            onChange={(e) => setFormData({ ...formData, roomNumber: e.target.value })}
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="propertyId">Property</Label>
+          <Select
+            value={formData.propertyId}
+            onValueChange={(value) => setFormData({ ...formData, propertyId: value })}
+          >
+            <SelectTrigger id="propertyId" className="w-full">
+              <SelectValue placeholder="Select property" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1">Sunset Apartments</SelectItem>
+              <SelectItem value="2">Ocean View Complex</SelectItem>
+              <SelectItem value="3">Downtown Residences</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="floor">Floor</Label>
+          <Input
+            id="floor"
+            type="number"
+            min="1"
+            placeholder="1"
+            value={formData.floor}
+            onChange={(e) => setFormData({ ...formData, floor: Number.parseInt(e.target.value) })}
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="size">Size (sq ft)</Label>
+          <Input
+            id="size"
+            type="number"
+            min="1"
+            placeholder="500"
+            value={formData.size}
+            onChange={(e) => setFormData({ ...formData, size: Number.parseInt(e.target.value) })}
+            required
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="rentAmount">Monthly Rent ($)</Label>
+          <Input
+            id="rentAmount"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="1200.00"
+            value={formData.rentAmount}
+            onChange={(e) => setFormData({ ...formData, rentAmount: Number.parseFloat(e.target.value) })}
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="status">Status</Label>
+          <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
+            <SelectTrigger id="status" className="w-full">
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="available">Available</SelectItem>
+              <SelectItem value="occupied">Occupied</SelectItem>
+              <SelectItem value="maintenance">Maintenance</SelectItem>
+              <SelectItem value="reserved">Reserved</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="description">Description</Label>
+        <Textarea
+          id="description"
+          placeholder="Enter room description, amenities, etc..."
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          rows={4}
+        />
+      </div>
+
+      <div className="flex gap-3 justify-end">
+        <Button type="button" variant="outline" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button type="submit">{room ? "Update Room" : "Add Room"}</Button>
+      </div>
+    </form>
+  )
+
+  if (!showCard) {
+    return formContent
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -54,114 +170,7 @@ export function RoomForm({ room, onSubmit, onCancel, onSuccess }: RoomFormProps)
         <CardDescription>{room ? "Update room information" : "Enter details for the new room"}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="roomNumber">Room Number</Label>
-              <Input
-                id="roomNumber"
-                placeholder="e.g., 101"
-                value={formData.roomNumber}
-                onChange={(e) => setFormData({ ...formData, roomNumber: e.target.value })}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="propertyId">Property</Label>
-              <Select
-                value={formData.propertyId}
-                onValueChange={(value) => setFormData({ ...formData, propertyId: value })}
-              >
-                <SelectTrigger id="propertyId">
-                  <SelectValue placeholder="Select property" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">Sunset Apartments</SelectItem>
-                  <SelectItem value="2">Ocean View Complex</SelectItem>
-                  <SelectItem value="3">Downtown Residences</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="floor">Floor</Label>
-              <Input
-                id="floor"
-                type="number"
-                min="1"
-                placeholder="1"
-                value={formData.floor}
-                onChange={(e) => setFormData({ ...formData, floor: Number.parseInt(e.target.value) })}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="size">Size (sq ft)</Label>
-              <Input
-                id="size"
-                type="number"
-                min="1"
-                placeholder="500"
-                value={formData.size}
-                onChange={(e) => setFormData({ ...formData, size: Number.parseInt(e.target.value) })}
-                required
-              />
-            </div>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="rentAmount">Monthly Rent ($)</Label>
-              <Input
-                id="rentAmount"
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder="1200.00"
-                value={formData.rentAmount}
-                onChange={(e) => setFormData({ ...formData, rentAmount: Number.parseFloat(e.target.value) })}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
-              <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
-                <SelectTrigger id="status">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="available">Available</SelectItem>
-                  <SelectItem value="occupied">Occupied</SelectItem>
-                  <SelectItem value="maintenance">Maintenance</SelectItem>
-                  <SelectItem value="reserved">Reserved</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              placeholder="Enter room description, amenities, etc..."
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              rows={4}
-            />
-          </div>
-
-          <div className="flex gap-3 justify-end">
-            <Button type="button" variant="outline" onClick={onCancel}>
-              Cancel
-            </Button>
-            <Button type="submit">{room ? "Update Room" : "Add Room"}</Button>
-          </div>
-        </form>
+        {formContent}
       </CardContent>
     </Card>
   )

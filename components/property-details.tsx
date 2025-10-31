@@ -5,6 +5,14 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { 
   ArrowLeft, 
   Building2, 
@@ -23,6 +31,7 @@ import {
   Home
 } from "lucide-react"
 import Link from "next/link"
+import { RoomForm } from "@/components/forms/room-form"
 
 // Mock data - in a real app, this would come from an API
 const properties = [
@@ -137,6 +146,8 @@ interface PropertyDetailsProps {
 }
 
 export function PropertyDetails({ propertyId }: PropertyDetailsProps) {
+  const [isRoomDialogOpen, setIsRoomDialogOpen] = useState(false)
+  
   const property = properties.find(p => p.id === propertyId)
   
   if (!property) {
@@ -187,10 +198,20 @@ export function PropertyDetails({ propertyId }: PropertyDetailsProps) {
             {property.address}
           </div>
         </div>
-        <Button>
-          <Edit className="h-4 w-4 mr-2" />
-          Edit Property
-        </Button>
+        <div className="flex gap-2">
+          <Link href={`/properties/${propertyId}/manage`}>
+            <Button>
+              <Edit className="h-4 w-4 mr-2" />
+              Manage Property
+            </Button>
+          </Link>
+          <Link href={`/properties/${propertyId}/settings`}>
+            <Button variant="outline">
+              <Edit className="h-4 w-4 mr-2" />
+              Settings
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Property Image and Overview */}
@@ -325,10 +346,27 @@ export function PropertyDetails({ propertyId }: PropertyDetailsProps) {
         <TabsContent value="rooms" className="space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold">Room Management</h3>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Room
-            </Button>
+            <Dialog open={isRoomDialogOpen} onOpenChange={setIsRoomDialogOpen}>
+              <DialogTrigger asChild>
+                <Button>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Room
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Add New Room</DialogTitle>
+                  <DialogDescription>
+                    Create a new rental unit for {property.name}.
+                  </DialogDescription>
+                </DialogHeader>
+                <RoomForm
+                  showCard={false}
+                  onSuccess={() => setIsRoomDialogOpen(false)}
+                  onCancel={() => setIsRoomDialogOpen(false)}
+                />
+              </DialogContent>
+            </Dialog>
           </div>
           
           <div className="grid gap-4">

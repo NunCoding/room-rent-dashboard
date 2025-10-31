@@ -47,7 +47,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         <div className="fixed inset-0 bg-black/80" onClick={() => setSidebarOpen(false)} />
         <div className="fixed inset-y-0 left-0 w-64 bg-card border-r border-border">
           <div className="flex h-16 items-center justify-between px-6">
-            <span className="text-xl font-semibold">RentManager</span>
+            <span className="text-xl font-semibold">RoomRentManager</span>
             <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)}>
               <X className="h-5 w-5" />
             </Button>
@@ -80,7 +80,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col flex-grow border-r border-border bg-card">
           <div className="flex h-16 items-center px-6">
-            <span className="text-xl font-semibold">RentManager</span>
+            <span className="text-xl font-semibold">RoomRentManager</span>
           </div>
           <nav className="flex-1 space-y-1 px-3 py-4">
             {navigation.map((item) => {
